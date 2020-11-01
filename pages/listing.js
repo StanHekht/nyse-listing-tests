@@ -4,6 +4,14 @@ export default class ListingPage {
     nextXPath = "//a[contains(text(), 'Next')]/..";
     oneXPath = "//a[contains(text(), '1')]/..";
     twoXPath = "//a[contains(text(), '2')]/..";
+    firstXPath = "//a[contains(text(), 'First')]/..";
+    lastXPath = "//a[contains(text(), 'Last')]/..";
+
+    // Request URLs
+    filterRequestUrl = 'https://www.nyse.com/api/quotes/filter';
+
+    // Selectors
+    companyNameSelector = 'tr > td:nth-child(2)';
 
 
     constructor(page) {
