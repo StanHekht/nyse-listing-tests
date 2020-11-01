@@ -11,7 +11,11 @@ export default class ListingPage {
     filterRequestUrl = 'https://www.nyse.com/api/quotes/filter';
 
     // Selectors
+    companySymbolSelector = 'tr > td:nth-child(1) > a';
     companyNameSelector = 'tr > td:nth-child(2)';
+    sortSelector = '[class*="table-sort"]';
+    pagerSelector = 'ul[class="pagination"] > li';
+    recordsListSelector = 'td > a[href^="https://www.nyse.com/quote/"]';
 
 
     constructor(page) {
