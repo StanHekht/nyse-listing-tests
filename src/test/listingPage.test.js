@@ -1,6 +1,5 @@
 import 'jest-chain';
 import ListingPage from "../../pages/listing";
-import { getClassNameFromHandle, getHrefFromHandle } from "../../utils/base";
 
 
 const lp = new ListingPage(page);
