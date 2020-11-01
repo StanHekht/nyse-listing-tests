@@ -1,11 +1,14 @@
 import 'jest-chain';
 import ListingPage from "../../pages/listing";
+import { getClassNameFromHandle } from "../../utils/base";
 
 let timeout = 20000;
 let responseJSON;
 let requestData;
 
 const lp = new ListingPage(page);
+
+const testState = {};
 
 describe('Listing Directory', () => {
     beforeAll(async () => {
@@ -18,16 +21,6 @@ describe('Listing Directory', () => {
         })
         await page.goto(URL, { waitUntil: "networkidle0" });
     });
-
-    it('should display data sorted by symbol (ascending)', async () => {
-        await page.waitForSelector(lp.sortSelector);
-        let sortHeadersClasses = await page.$$eval(lp.sortSelector, els => els.map(el => el.className));
-        let [symbolClass, nameClass] = sortHeadersClasses;
-
-        expect(symbolClass).toContain("table-sort-asc");
-        expect(nameClass).toEqual("table-sort");
-    }, timeout);
-
     it('should display symbol and name for the corresponding company', async () => {
         await page.waitForSelector(lp.companySymbolSelector);
         let symbolText = await page.$eval(lp.companySymbolSelector, el => el.innerText);
@@ -40,7 +33,7 @@ describe('Listing Directory', () => {
         expect(nameText).toEqual(responseJSON[0].instrumentName);
     }, timeout);
 
-    it('must display 10 records per page and provide a pager', async () => {
+    it('should display 10 records per page and provide a pager', async () => {
         await page.waitForSelector(lp.recordsListSelector);
         let recordsCount = await page.$$eval(lp.recordsListSelector, records => records.length);
         expect(recordsCount)

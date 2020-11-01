@@ -7,6 +7,10 @@ export default class ListingPage {
     firstXPath = "//a[contains(text(), 'First')]/..";
     lastXPath = "//a[contains(text(), 'Last')]/..";
 
+    // Other XPaths
+    symbolHeaderXPath = "//th[contains(text(), 'Symbol')]";
+    nameHeaderXPath = "//th[contains(text(), 'Name')]";
+
     // Request URLs
     filterRequestUrl = 'https://www.nyse.com/api/quotes/filter';
 

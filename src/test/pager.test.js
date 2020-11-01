@@ -1,6 +1,5 @@
-import 'jest-chain';
 import ListingPage from "../../pages/listing";
-import { getInnerTextFromHandle, getClassNameFromHandle } from "../../utils/base";
+import { getClassNameFromHandle } from "../../utils/base";
 
 let timeout = 20000;
 
@@ -12,7 +11,7 @@ describe('Pager', () => {
     beforeAll(async () => {
         page.on('response', async(response) => {
             let request = response.request();
-            if (request.url() === 'https://www.nyse.com/api/quotes/filter'){
+            if (request.url() === lp.filterRequestUrl){
                 testState.requestData = await JSON.parse(request.postData());
                 testState.responseJSON = await response.json();
             }
