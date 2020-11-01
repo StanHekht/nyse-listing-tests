@@ -1,10 +1,8 @@
 import 'jest-chain';
 import ListingPage from "../../pages/listing";
-import { getClassNameFromHandle } from "../../utils/base";
+import { getClassNameFromHandle, getHrefFromHandle } from "../../utils/base";
 
 let timeout = 20000;
-let responseJSON;
-let requestData;
 
 const lp = new ListingPage(page);
 
@@ -15,8 +13,8 @@ describe('Listing Directory', () => {
         page.on('response', async(response) => {
             let request = response.request();
             if (request.url() === lp.filterRequestUrl){
-                requestData = await JSON.parse(request.postData());
-                responseJSON = await response.json();
+                testState.requestData = await JSON.parse(request.postData());
+                testState.responseJSON = await response.json();
             }
         })
         await page.goto(URL, { waitUntil: "networkidle0" });
@@ -52,5 +50,11 @@ describe('Listing Directory', () => {
             .toContain('5')
             .toContain('Next')
             .toContain('Last');
+    }, timeout);
+
+    it.only('should have symbol provide link to the quote page', async () => {
+        await page.waitForSelector(lp.companySymbolSelector);
+        let symbolHref = await page.$eval(lp.companySymbolSelector, el => el.href);
+        expect(symbolHref).toEqual(testState.responseJSON[0].url);
     }, timeout);
 });

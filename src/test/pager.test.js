@@ -7,7 +7,7 @@ const lp = new ListingPage(page);
 
 const testState = {};
 
-describe('Pager', () => {
+describe.skip('Pager', () => {
     beforeAll(async () => {
         page.on('response', async(response) => {
             let request = response.request();
