@@ -1,5 +1,6 @@
 import 'jest-chain';
 import ListingPage from "../../pages/listing";
+import { getInnerTextFromHandle, getClassNameFromHandle } from "../../utils/base";
 
 let timeout = 20000;
 let responseJSON;
@@ -7,7 +8,9 @@ let requestData;
 
 const lp = new ListingPage(page);
 
-describe.skip('Listing Directory', () => {
+const testState = {};
+
+describe('Pager', () => {
     beforeAll(async () => {
         page.on('response', async(response) => {
             let request = response.request();
@@ -18,48 +21,10 @@ describe.skip('Listing Directory', () => {
         })
         await page.goto(URL, { waitUntil: "networkidle0" });
     });
+    it('.....', async () => {
 
-    it('should display data sorted by symbol (ascending)', async () => {
-        await page.waitForSelector('[class*="table-sort"]');
-        let sortHeadersClasses = await page.$$eval('[class*="table-sort"]', els => els.map(el => el.className));
-        let [symbolClass, nameClass] = sortHeadersClasses;
-
-        expect(symbolClass).toContain("table-sort-asc");
-        expect(nameClass).toEqual("table-sort");
     }, timeout);
 
-    it('should display symbol and name for the corresponding company', async () => {
-        await page.waitForSelector('tr > td:nth-child(1) > a');
-        let symbolText = await page.$eval('tr > td:nth-child(1) > a', el => el.innerText);
-        expect(symbolText).not.toBe("");
-        expect(symbolText).toEqual(responseJSON[0].symbolTicker);
-
-        await page.waitForSelector('tr > td:nth-child(2)');
-        let nameText = await page.$eval('tr > td:nth-child(2)', el => el.innerText);
-        expect(nameText).not.toBe("");
-        expect(nameText).toEqual(responseJSON[0].instrumentName);
-    }, timeout);
-
-    it('must display 10 records per page and provide a pager', async () => {
-        await page.waitForSelector('td > a[href^="https://www.nyse.com/quote/"]');
-        let recordsCount = await page.$$eval('td > a[href^="https://www.nyse.com/quote/"]', records => records.length);
-        expect(recordsCount)
-            .toBe(10)
-            .toEqual(responseJSON.length);
-
-        await page.waitForSelector('ul[class="pagination"] > li');
-        let paginator = await page.$$eval('ul[class="pagination"] > li', els => els.map(el => el.textContent));
-        let paginatorString = paginator.join();
-        expect(paginatorString)
-            .toContain('First')
-            .toContain('Previous')
-            .toContain('1')
-            .toContain('3')
-            .toContain('4')
-            .toContain('5')
-            .toContain('Next')
-            .toContain('Last');
-    }, timeout);
 
     it('should allow user to go to the next and previous pages', async () => {
         // Create variables to further store request and response data
@@ -67,31 +32,23 @@ describe.skip('Listing Directory', () => {
         let newResponseJSON;
 
         // Previous
-        let previousXPath = "//a[contains(text(), 'Previous')]/..";
-        await page.waitForXPath(previousXPath);
-        let [previousHandle] = await page.$x(previousXPath);
-        let previousText = await page.evaluate(el => el.innerText, previousHandle);
-        let previousClass = await page.evaluate(el => el.className, previousHandle);
+        await page.waitForXPath(lp.previousXPath);
+        let [previousHandle] = await page.$x(lp.previousXPath);
+        let previousClass = await getClassNameFromHandle(previousHandle);
 
         // Next
-        let nextXPath = "//a[contains(text(), 'Next')]/..";
-        await page.waitForXPath(nextXPath);
-        let [nextHandle] = await page.$x(nextXPath);
-        let nextText = await page.evaluate(el => el.innerText, nextHandle);
+        await page.waitForXPath(lp.nextXPath);
+        let [nextHandle] = await page.$x(lp.nextXPath);
         let nextClass = await page.evaluate(el => el.className, nextHandle);
 
-        // 1
-        let oneXPath = "//a[contains(text(), '1')]/..";
-        await page.waitForXPath(oneXPath);
-        let [oneHandle] = await page.$x(oneXPath);
-        let oneText = await page.evaluate(el => el.innerText, oneHandle);
+        // 1 - One
+        await page.waitForXPath(lp.oneXPath);
+        let [oneHandle] = await page.$x(lp.oneXPath);
         let oneClass = await page.evaluate(el => el.className, oneHandle);
 
         // 2
-        let twoXPath = "//a[contains(text(), '2')]/..";
-        await page.waitForXPath(twoXPath);
-        let [twoHandle] = await page.$x(twoXPath);
-        let twoText = await page.evaluate(el => el.innerText, twoHandle);
+        await page.waitForXPath(lp.twoXPath);
+        let [twoHandle] = await page.$x(lp.twoXPath);
         let twoClass = await page.evaluate(el => el.className, twoHandle);
 
         // Make sure paginator indicates that the person is on page1
