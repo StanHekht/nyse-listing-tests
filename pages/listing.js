@@ -10,6 +10,7 @@ export default class ListingPage {
     // Other XPaths
     symbolHeaderXPath = "//th[contains(text(), 'Symbol')]";
     nameHeaderXPath = "//th[contains(text(), 'Name')]";
+    errorMessageXPath = "//td[contains(text(), 'Sorry')]";
 
     // Request URLs
     filterRequestUrl = 'https://www.nyse.com/api/quotes/filter';
@@ -20,6 +21,7 @@ export default class ListingPage {
     sortSelector = '[class*="table-sort"]';
     pagerSelector = 'ul[class="pagination"] > li';
     recordsListSelector = 'td > a[href^="https://www.nyse.com/quote/"]';
+    instrumentFilterForm = "#instrumentFilter";
 
 
     constructor(page) {

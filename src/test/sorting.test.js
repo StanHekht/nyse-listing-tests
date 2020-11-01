@@ -1,13 +1,12 @@
 import ListingPage from "../../pages/listing";
 import { getClassNameFromHandle } from "../../utils/base";
 
-let timeout = 20000;
 
 const lp = new ListingPage(page);
 
 const testState = {};
 
-describe.skip('Listing Directory', () => {
+describe('Sorting', () => {
     beforeAll(async () => {
         page.on('response', async(response) => {
             let request = response.request();
@@ -88,11 +87,4 @@ describe.skip('Listing Directory', () => {
         1000 records, in order to avoid targeting a previse value of records in the response*/
         expect(testState.responseJSON[0].total).toBeGreaterThan(1000);
     }, timeout);
-
-
-
-
-
-
-
 });

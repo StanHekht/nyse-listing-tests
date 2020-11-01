@@ -1,13 +1,12 @@
 import ListingPage from "../../pages/listing";
 import { getClassNameFromHandle } from "../../utils/base";
 
-let timeout = 20000;
 
 const lp = new ListingPage(page);
 
 const testState = {};
 
-describe.skip('Pager', () => {
+describe('Pager', () => {
     beforeAll(async () => {
         page.on('response', async(response) => {
             let request = response.request();
