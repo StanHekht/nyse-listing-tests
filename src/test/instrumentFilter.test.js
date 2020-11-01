@@ -6,9 +6,9 @@ import { getClassNameFromHandle, getInnerTextFromHandle } from "../../utils/base
 const lp = new ListingPage(page);
 
 const testState = {
-  symbol: "IBM",
-  noResultsValue: "/~&*",
-  errorMessageTarget: "Sorry, we couldn't find any instruments that match your criteria."
+    symbol: "IBM",
+    noResultsValue: "/~&*",
+    errorMessageTarget: "Sorry, we couldn't find any instruments that match your criteria."
 };
 
 describe('Instrument Filter', () => {
@@ -48,25 +48,11 @@ describe('Instrument Filter', () => {
     }, timeout);
 
     it('should have pager items disabled', async () => {
-        // Previous
-        await page.waitForXPath(lp.previousXPath);
-        [testState.previousHandle] = await page.$x(lp.previousXPath);
-        testState.previousClass = await getClassNameFromHandle(testState.previousHandle);
-
-        // Next
-        await page.waitForXPath(lp.nextXPath);
-        [testState.nextHandle] = await page.$x(lp.nextXPath);
-        testState.nextClass = await getClassNameFromHandle(testState.nextHandle);
-
-        // First
-        await page.waitForXPath(lp.firstXPath);
-        [testState.firstHandle] = await page.$x(lp.firstXPath);
-        testState.firstClass = await getClassNameFromHandle(testState.firstHandle);
-
-        // Last
-        await page.waitForXPath(lp.lastXPath);
-        [testState.lastHandle] = await page.$x(lp.lastXPath);
-        testState.lastClass = await getClassNameFromHandle(testState.lastHandle);
+        // Previous - Next - First - Last
+        await lp.getPreviousHandleAndClass(lp.previousXPath, testState);
+        await lp.getNextHandleAndClass(lp.nextXPath, testState);
+        await lp.getFirstHandleAndClass(lp.firstXPath, testState);
+        await lp.getLastHandleAndClass(lp.lastXPath, testState);
 
         expect(testState.previousClass).toContain('disabled');
         expect(testState.nextClass).toContain('disabled');

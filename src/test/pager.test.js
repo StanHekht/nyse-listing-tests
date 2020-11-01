@@ -17,35 +17,13 @@ describe('Pager', () => {
         })
         await page.goto(URL, { waitUntil: "networkidle0" });
 
-        // Previous
-        await page.waitForXPath(lp.previousXPath);
-        [testState.previousHandle] = await page.$x(lp.previousXPath);
-        testState.previousClass = await getClassNameFromHandle(testState.previousHandle);
-
-        // Next
-        await page.waitForXPath(lp.nextXPath);
-        [testState.nextHandle] = await page.$x(lp.nextXPath);
-        testState.nextClass = await getClassNameFromHandle(testState.nextHandle);
-
-        // 1 - One
-        await page.waitForXPath(lp.oneXPath);
-        [testState.oneHandle] = await page.$x(lp.oneXPath);
-        testState.oneClass = await getClassNameFromHandle(testState.oneHandle);
-
-        // 2
-        await page.waitForXPath(lp.twoXPath);
-        [testState.twoHandle] = await page.$x(lp.twoXPath);
-        testState.twoClass = await getClassNameFromHandle(testState.twoHandle);
-
-        // First
-        await page.waitForXPath(lp.firstXPath);
-        [testState.firstHandle] = await page.$x(lp.firstXPath);
-        testState.firstClass = await getClassNameFromHandle(testState.firstHandle);
-
-        // Last
-        await page.waitForXPath(lp.lastXPath);
-        [testState.lastHandle] = await page.$x(lp.lastXPath);
-        testState.lastClass = await getClassNameFromHandle(testState.lastHandle);
+        // Previous - Next - One - Two = First - Last
+        await lp.getPreviousHandleAndClass(lp.previousXPath, testState);
+        await lp.getNextHandleAndClass(lp.nextXPath, testState);
+        await lp.getOneHandleAndClass(lp.oneXPath, testState);
+        await lp.getTwoHandleAndClass(lp.twoXPath, testState);
+        await lp.getFirstHandleAndClass(lp.firstXPath, testState);
+        await lp.getLastHandleAndClass(lp.lastXPath, testState);
     });
 
     it('should display pager elements correctly on initial load', async () => {

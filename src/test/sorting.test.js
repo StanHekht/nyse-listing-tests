@@ -17,16 +17,9 @@ describe('Sorting', () => {
         })
         await page.goto(URL, { waitUntil: "networkidle0" });
 
-        // Symbol
-        await page.waitForXPath(lp.symbolHeaderXPath);
-        [testState.symbolHeaderHandle] = await page.$x(lp.symbolHeaderXPath);
-        testState.symbolHeaderClass = await getClassNameFromHandle(testState.symbolHeaderHandle);
-
-        // Name
-        await page.waitForXPath(lp.nameHeaderXPath);
-        [testState.nameHeaderHandle] = await page.$x(lp.nameHeaderXPath);
-        testState.nameHeaderClass = await getClassNameFromHandle(testState.nameHeaderHandle);
-
+        // Symbol - Name
+        await lp.getSymbolHeaderHandleAndClass(lp.symbolHeaderXPath, testState);
+        await lp.getNameHeaderHandleAndClass(lp.nameHeaderXPath, testState);
     });
 
     it('should display data sorted by symbol (ascending) on initial load', async () => {
@@ -84,7 +77,7 @@ describe('Sorting', () => {
 
     it('should have API sort the entire directory', async () => {
         /* This may need a different approach. We assert against a
-        1000 records, in order to avoid targeting a previse value of records in the response*/
+        1000 records, in order to avoid targeting a precise value of records in the response */
         expect(testState.responseJSON[0].total).toBeGreaterThan(1000);
     }, timeout);
 });
