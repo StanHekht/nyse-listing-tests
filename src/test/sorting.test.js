@@ -35,7 +35,7 @@ describe('Sorting', () => {
     it('should sort by symbol descending when user first clicks on a symbol header', async () => {
         // Click on a symbol header, make sure element gets "table-sort-DESC" css class
         await testState.symbolHeaderHandle.click();
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(2000);
         testState.symbolHeaderClass = await getClassNameFromHandle(testState.symbolHeaderHandle);
         expect(testState.symbolHeaderClass).toContain("table-sort-desc");
 
@@ -48,7 +48,7 @@ describe('Sorting', () => {
     it('should sort by symbol ascending when user clicks on a symbol header again', async () => {
         // Click on a symbol header, make sure element gets "table-sort-ASC" css class
         await testState.symbolHeaderHandle.click();
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(2000);
         testState.symbolHeaderClass = await getClassNameFromHandle(testState.symbolHeaderHandle);
         expect(testState.symbolHeaderClass).toContain("table-sort-asc");
 
@@ -61,7 +61,7 @@ describe('Sorting', () => {
     it('should sort by name ascending when user first clicks on name header', async () => {
         // Click on a name header, make sure element gets "table-sort-ASC" css class
         await testState.nameHeaderHandle.click();
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(2000);
         testState.nameHeaderClass = await getClassNameFromHandle(testState.nameHeaderHandle);
         expect(testState.symbolHeaderClass).toContain("table-sort-asc");
 
@@ -74,7 +74,7 @@ describe('Sorting', () => {
     it('should sort by name descending when user clicks on name header again', async () => {
         // Click on a name header, make sure element gets "table-sort-DESC" css class
         await testState.nameHeaderHandle.click();
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(2000);
         testState.nameHeaderClass = await getClassNameFromHandle(testState.nameHeaderHandle);
         expect(testState.nameHeaderClass).toContain("table-sort-desc");
 
