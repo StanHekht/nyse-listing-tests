@@ -4,7 +4,7 @@
 - Clone the project: ```git clone```
 - Make sure node/npm are installed
 - Install dependencies: ```npm install```
-- Run ```npm tun test```
+- Run ```npm run test```
 - Observe results in the terminal, i.e.: https://share.getcloudapp.com/ApuLmY1j
 
 ### Browser Details
